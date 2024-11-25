@@ -7,10 +7,11 @@ import JWT from 'jsonwebtoken'
  * secretSignaturer: chứ ký bí mật(dạng chuỗi ngẫu nhiên) trên docs thì đề tên là privateKey tùy đều được
  * tokenLife: Thời gian sống của token
  */
-const generateToken = async (userInfo, secretSignaturer, tokenLife) => {
+// const tokenLife = '1h';
+const generateToken = async (userInfo, secretSignaturer) => {
     try {
         //Hàm sign là thư viện của jwt - thuật toán mặc định là HS256, cứ cho vào code để dễ nhớ kiến thức
-        return JWT.sign(userInfo, secretSignaturer, {algorithm: 'HS256', expiresIn: tokenLife})
+        return JWT.sign(userInfo, secretSignaturer, {algorithm: 'HS256', expiresIn: '1h'})
 
     } catch (error) { throw new Error(error) 
 
@@ -26,6 +27,14 @@ const verifyToken = async (token, secretSignaturer) => {
 
     }
 }
+/**
+ * 2 cái chữ ký bí mật quan trọng trong dự án. Dành cho JWT - Jsonwebtokens
+ * Lưu ý phải lưu vào biến môi trường ENV trong thực tế cho bảo mật.
+ * Ở đây mình làm Demo thôi nên mới đặt biến const và giá trị random ngẫu nhiên trong code nhé.
+ * Xem thêm về biến môi trường: https://youtu.be/Vgr3MWb7aOw
+ */
+export const ACCESS_TOKEN_SECRET_SIGNATURE = 'KBgJwUETt4HeVD05WaXXI9V3JnwCVP'
+export const REFRESH_TOKEN_SECRET_SIGNATURE = 'fcCjhnpeopVn2Hg1jG75MUi62051yL'
 
 export const JwtProvider = {
     generateToken,
